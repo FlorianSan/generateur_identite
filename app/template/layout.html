@@ -1,11 +1,77 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>test</title>
-    <p>mon paragraphe</p>
-</head>
-<body>
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" type= "text/css" href="{{ url_for('static',  filename='css/all.css') }}" />
+        {% block CSSlink %}{% endblock %}
+    </head>
 
-</body>
+    <nav>
+    <ul>
+        <li>
+            <a href="{{ url_for('index') }}">
+                Accueil
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('liste') }}">
+                Liste
+            </a>
+        </li>
+
+             {% if not session.logged_in %}
+        <li>
+            <a href="{{ url_for('login') }}">
+                Se connecter
+            </a>
+        </li>
+
+            {% else %}
+        <li>
+            <a href="{{ url_for('create') }}">
+               Créer
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('logout') }}">
+               Se déconnecter
+            </a>
+        </li>
+            {% endif %}
+
+    </ul>
+</nav>
+
+
+    {% block header %}{% endblock %}
+
+    {% if session.logged_in %}
+    <p>Vous êtes connecté</p>
+    {% endif %}
+
+    {% if info %}
+        <div class="info">{{ info }}</div>
+    {% endif %}
+
+    <!-- #####################################################################
+	Contenu principal
+#####################################################################	 -->
+
+     {% block content %}{% endblock %}
+
+
+<!-- ############### pied de page #############################	 -->
+    <div id="footer">
+            &copy All right reserved ENAC
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static',  filename='js/jquery-3.3.1.min.js') }}" charset="UTF-8"></script>
+    <script defer type="text/javascript" src="{{ url_for('static',  filename='library/fontawesome-free-5.6.3-web/js/all.js') }}" charset="UTF-8"></script>
+    <script type="text/javascript" src="{{ url_for('static',  filename='library/bootstrap-4.2.1-dist/js/bootstrap.min.js') }}" charset="UTF-8"></script>
+
+     {% block JSscript %}{% endblock %}
+
+
+    </body>
 </html>

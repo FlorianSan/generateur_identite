@@ -1,0 +1,160 @@
+/*@charset 'UTF-8';*/
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600|Arvo:700");
+
+
+body
+  {
+     background-color: #5e42a6;
+     background-image: url(images/intro.svg);
+     background-size: 100% 100%;
+     background-position: top right;
+     background-repeat: no-repeat;
+     font-family: 'Source Sans Pro';
+     font-weight: 300;
+     color: #777;
+     line-height: 1.65em;
+     font-size: 18px;
+     text-align: center;
+     height: 100%;
+     margin-left:20%
+  }
+
+/*en-tete*/
+
+header
+{
+  border-bottom: 2px solid #e5e5e5;
+  padding:100px 0;
+  margin:0 50px;
+}
+
+header#top2
+{
+    padding:50px 0;
+}
+	header h1
+	{
+
+   	font-weight: 700;
+   	color: #ffffff;
+   	font-size: 2.5em;
+   	letter-spacing: 15px;
+	}
+
+	header p
+	{
+  	text-transform: uppercase;
+  	font-weight: 400;
+  	color: #888;
+	}
+
+
+
+/********************************************************************************
+ section                                                                    
+********************************************************************************/
+section
+{
+  border-top: 2px solid #e5e5e5;
+  border-bottom: 2px solid #e5e5e5;
+  margin:10px 50px;
+  text-align: center;
+}
+
+	section h2
+	{
+            font-weight: 600;
+	  font-variant:small-caps;
+	  color: #888;
+	  font-size:1.5em;
+	  letter-spacing: 12px;
+	  margin:50px 0;
+	}
+
+	section article
+	{
+	   margin:10px 15px;
+	}
+	
+	    section article div.S1
+	    {
+	        margin-top:60px;
+	    }
+
+	    section article img
+	    {
+		    width:100%;
+		    border: solid 6px #ebebeb;
+	    }
+
+        section#contacter,
+        section#connecter
+        {
+            background-color: #f0f0f0;
+            margin:0;
+        }
+
+
+div.search input
+{
+    width:250px;
+    float: right;
+    margin-bottom: 20px;
+}
+
+div.enfant
+{
+ display: none;
+}
+
+div.parent:hover .enfant{
+	display:block;
+}
+
+
+/********************************************************************************
+ footer                                                                
+********************************************************************************/
+footer
+{
+  	width:100%;
+	color: white;
+  	background-color: #666;
+  	border-top: 2px solid #e5e5e5;
+  	padding:50px 10px;
+
+}
+
+
+#comment ol, #comment ol li
+{text-align:left;}
+
+
+#comment h6
+{
+	font-size:1.2em;
+	font-weight: bold;
+}
+
+
+#comment ol li .fa-times
+{
+	color:Tomato;
+	font-size: 1.5em;
+	cursor:pointer;
+}
+
+#comment ol li p
+{
+	display:inline-block;
+	border-left:1px solid lightgrey;
+	padding-left: 10px;
+	margin-left: 10px;
+}
+
+div.info
+{
+	color:red;
+	font-size:1.2em;
+}
+

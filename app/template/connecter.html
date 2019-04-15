@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    ID Creator Connexion
+{% endblock %}
+
+{% block header %}
+    <header id="top2">
+        <h1>Se connecter</h1>
+    </header>
+{% endblock %}
+
+
+{% block content %}
+  <section id="connecter">
+
+            <div class="row">
+                <div class="col-md-4 col-sm-6 col-xs-12 offset-sm-3 offset-md-4 form-group" >
+                     {% if error %}
+                        <p class=error><strong>Error:</strong> {{ error }}
+                     {% endif %}
+                    <form method="post" action="{{ url_for('connexion') }}">
+                        <input name="login" placeholder="Votre login" type="text" />
+                        <input name="MDP" placeholder="Votre mot de passe" type="text" />
+                        <button class="button" type="submit" name="btn_submit" value="form_connect">Se connecter</button>
+                    </form>
+                </div>
+            </div>
+  </section>
+
+{% endblock %}

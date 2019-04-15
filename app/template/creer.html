@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    ID Creator Créer
+{% endblock %}
+
+
+{% block header %}
+    <header id="top2">
+        <h1>creer</h1>
+    </header>
+{% endblock %}
+
+
+{% block content %}
+  <section id="clubs">
+                    <form method="post" action="{{ url_for('formulaire_creation') }}">
+                        <input name="nombre" placeholder="Nombre d'identité" type="text" />
+                         <input type="radio" id="idcard" name="id_carte">
+                         <label for="idcard">Carte d'identité</label>
+                        <button class="button" type="submit" name="btn_submit" value="form_connect">Créer</button>
+                    </form>
+		</section>
+
+{% endblock %}
+

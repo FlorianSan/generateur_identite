@@ -1,9 +1,10 @@
 import mysql.connector
 from mysql.connector import errorcode
 import os
+from math import ceil
 
 NOM = os.path.abspath("fichier_bdd/noms.txt")
-
+PRENOM = os.path.abspath("fichier_bdd/prenoms.txt")
 
 config = {
         'user': 'root',
@@ -30,22 +31,50 @@ def close_bd(cursor,cnx):
     cursor.close()
     cnx.close()
 
-def add_in_table(filename,table):
-    msg = ""
+def add_nom():
+    msg = "Succes"
     try:
         cnx = connexion()
         cursor = cnx.cursor()
-        sql = "INSERT INTO "+table+" VALUES (%s);"
-        fichier = open(filename, "r")
+        sql = "INSERT INTO Nom (nom) VALUES (%s);"
+        fichier = open(NOM, "r")
+        l=[]
         for ligne in fichier:
-            param = (ligne.split()[0],)
-            cursor.execute(sql, param)
-            cnx.commit()
+            data = (ligne.split()[0],)
+            l.append(data)
+        cursor.executemany(sql, l[:80000])
+        cursor.executemany(sql, l[80000:160000])
+        cursor.executemany(sql, l[160000:])
+        cnx.commit()
         fichier.close()
     except mysql.connector.Error as err:
-        msg = "Failed add_commentData : {}".format(err)
+        msg = "Failed add_in_table : {}".format(err)
     finally:
         close_bd(cursor, cnx)
     return msg
 
-print(add_in_table(NOM,"Nom (nom)"))
+def add_prenom():
+    msg = "Succes"
+    try:
+        cnx = connexion()
+        cursor = cnx.cursor()
+        sql = "INSERT INTO Prenom (prenom, genre) VALUES (%s, %s);"
+        fichier = open(PRENOM, "r")
+        l=[]
+        for ligne in fichier:
+            data = ligne.replace('\x00','').replace('\n','').split("\t")
+            if len(data) == 4 :
+                d = (data[0],data[1])
+                l.append(d)
+        cursor.executemany(sql, l)
+        cnx.commit()
+        fichier.close()
+    except mysql.connector.Error as err:
+        msg = "Failed add_in_table : {}".format(err)
+    finally:
+        close_bd(cursor, cnx)
+    return msg
+
+if __name__ == '__main__':
+    print(add_prenom())
+    print(add_nom())

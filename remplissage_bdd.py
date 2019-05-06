@@ -33,7 +33,7 @@ def close_bd(cursor,cnx):
     cnx.close()
 
 def add_nom():
-    msg = "Succes"
+    msg = "Import des noms réussi"
     try:
         cnx = connexion()
         cursor = cnx.cursor()
@@ -55,7 +55,7 @@ def add_nom():
     return msg
 
 def add_prenom():
-    msg = "Succes"
+    msg = "Import des prenoms réussi"
     try:
         cnx = connexion()
         cursor = cnx.cursor()
@@ -76,6 +76,54 @@ def add_prenom():
         close_bd(cursor, cnx)
     return msg
 
+def add_banque():
+    msg = "Import des banques réussi"
+    try:
+        cnx = connexion()
+        cursor = cnx.cursor()
+        sql = "INSERT INTO Banque (refBanque) VALUES (%s);"
+        fichier = open(BANQUES, "r")
+        l=[]
+        for ligne in fichier:
+            data = ligne.replace('\x00','').replace('\n','').split("\t")
+            if len(data) > 4 :
+                d = (data[12],)
+                l.append(d)
+        l=set(l)
+        cursor.executemany(sql, l)
+        cnx.commit()
+        fichier.close()
+    except mysql.connector.Error as err:
+        msg = "Failed add_in_table : {}".format(err)
+    finally:
+        close_bd(cursor, cnx)
+    return msg
+
+def add_residence():
+    msg = "Import des adresse réussi"
+    try:
+        cnx = connexion()
+        cursor = cnx.cursor()
+        sql = "INSERT INTO Residence (numero, nom_voie, code_post, nom_commune) VALUES (%s, %s, %s, %s);"
+        fichier = open('fichier_bdd/BAN_licence_gratuite_repartage_12.txt', "r")
+        l=[]
+        for ligne in fichier:
+            data = ligne.replace('\x00','').replace('\n','').split(";")
+            if data[3] and data[1] and data[6] and data[15]:
+                d = (data[3],data[1],data[6],data[15])
+                l.append(d)
+
+        cursor.executemany(sql, l[:10000])
+        cnx.commit()
+        fichier.close()
+    except mysql.connector.Error as err:
+        msg = "Failed add_in_table : {}".format(err)
+    finally:
+        close_bd(cursor, cnx)
+    return msg
+
 if __name__ == '__main__':
-    print(add_prenom())
-    print(add_nom())
+    #print(add_prenom())
+    #print(add_nom())
+    #print(add_banque())
+    print(add_residence())

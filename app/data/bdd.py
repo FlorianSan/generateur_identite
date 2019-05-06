@@ -95,43 +95,32 @@ def get_allListe():
     return res
 
 ###################################################################################################
-# ajoute un commentaire dans la table commentaire
+# recuperer la dimension  de tables de la bdd
 
 
-def add_liste(nom, message, email):
-    msg = ""
+def get_dim():
     try:
+
         cnx = connexion()
         cursor = cnx.cursor()
-        sql = "INSERT INTO commentaires (nom, comment, email) VALUES (%s, %s, %s);"
-        param = (nom, message, email)
-        cursor.execute(sql, param)
-        cnx.commit()
+        sql = "SELECT COUNT(idNom) FROM nom"
+        cursor.execute(sql)
+        numnom = cursor.fetchall()[0][0]
+        sql = "SELECT COUNT(idPrenom) FROM prenom"
+        cursor.execute(sql)
+        numprenom = cursor.fetchall()[0][0]
+        sql = "SELECT COUNT(idBanque) FROM banque"
+        cursor.execute(sql)
+        numbanq = cursor.fetchall()[0][0]
+        sql = "SELECT COUNT(idResidence) FROM residence"
+        cursor.execute(sql)
+        numresidence = cursor.fetchall()[0][0]
+
     except mysql.connector.Error as err:
-        msg = "Failed add_commentData : {}".format(err)
+        res = "Failed get data : {}".format(err)
     finally:
         close_bd(cursor, cnx)
-    return msg
+    return numprenom,numnom,numresidence,numbanq
 
-
-###################################################################################################
-# supprime un commentaire dans la table commentaire
-
-
-def del_commentData(id_comment):
-    msg = ""
-    try:
-        cnx = connexion()
-        cursor = cnx.cursor()
-        sql = "DELETE FROM commentaires WHERE id_comment=%s;"
-        param = (id_comment,)
-        cursor.execute(sql, param)
-        cnx.commit()
-    except mysql.connector.Error as err:
-        msg = "Failed del_commentData : {}".format(err)
-    finally:
-        close_bd(cursor, cnx)
-    return msg
-
-
-
+def get_info(idprenom,idnom,idresidence,idbanq):
+    return

@@ -5,6 +5,7 @@ from math import ceil
 
 NOM = os.path.abspath("fichier_bdd/noms.txt")
 PRENOM = os.path.abspath("fichier_bdd/prenoms.txt")
+BANQUES = os.path.abspath("fichier_bdd/banques.txt")
 
 config = {
         'user': 'root',

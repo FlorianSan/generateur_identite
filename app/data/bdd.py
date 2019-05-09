@@ -77,7 +77,7 @@ def authentification(login,mdp):
 
 
 ###################################################################################################
-# récupère toutes les données de la table commentaire
+# récupère toutes les liste
 
 
 def get_allListe():
@@ -121,26 +121,54 @@ def get_dim():
         close_bd(cursor, cnx)
         return "Failed get data : {}".format(err)
 
-
-def get_info(idprenom, idnom, idresidence, idbanq):
+def get_info(idprenom, idnom, idresidence, idbanq, idvillenaissance):
     try:
         cnx = connexion()
         cursor = cnx.cursor()
         sql = "SELECT nom FROM nom WHERE idNom=%s"
         cursor.execute(sql,(idnom,))
         nom = cursor.fetchall()[0][0]
-        sql = "SELECT prenom FROM prenom WHERE idPrenom=%s"
+        sql = "SELECT prenom, genre FROM prenom WHERE idPrenom=%s"
         cursor.execute(sql,(idprenom,))
-        prenom = cursor.fetchall()[0][0]
+        prenom = cursor.fetchall()[0]
         sql = "SELECT refBanque FROM banque WHERE idbanque=%s"
         cursor.execute(sql,(idbanq,))
         banque = cursor.fetchall()[0][0]
         sql = "SELECT numero, nom_voie, code_post, nom_commune FROM residence WHERE idResidence=%s"
         cursor.execute(sql,(idresidence,))
         adresse = cursor.fetchall()[0]
+        sql = "SELECT nom_commune FROM residence WHERE idResidence=%s"
+        cursor.execute(sql, (idvillenaissance,))
+        ville_naissance = cursor.fetchall()[0][0]
         close_bd(cursor, cnx)
-        return nom, prenom, adresse, banque
+        return nom, prenom, adresse, banque, ville_naissance
     except mysql.connector.Error as err:
         close_bd(cursor, cnx)
         return "Failed get data : {}".format(err)
 
+def create_liste(info):
+    try:
+        cnx = connexion()
+        cursor = cnx.cursor()
+        sql = "INSERT INTO liste_fiche(descriptif, idUtilisateur) VALUE (%s,%s);"
+        cursor.execute(sql, info)
+        sql = "SELECT idListe FROM liste_fiche WHERE descriptif=%s;"
+        cursor.execute(sql, info[0])
+        idliste = cursor.fetchall()[0][0]
+    except mysql.connector.Error as err:
+        print("Failed get data : {}".format(err))
+    finally:
+        close_bd(cursor, cnx)
+    return idliste
+
+def create_identite(info):
+    try:
+        cnx = connexion()
+        cursor = cnx.cursor()
+        sql = "INSERT INTO individu(idNom , idPrenom, date_naissance, ville_naissance, idResidence, numero_insee, mrz, numTel, num_carte_banc, email, iban, genre, idBanque, idListe) VALUE (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
+        cursor.execute(sql, info)
+    except mysql.connector.Error as err:
+        print("Failed get data : {}".format(err))
+    finally:
+        close_bd(cursor, cnx)
+    return

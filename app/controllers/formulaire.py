@@ -4,22 +4,32 @@
 
 from flask import session
 from app.data.bdd import *
+from random import randint
 
 
 ###################################################################################################
 #ajoute un commentaire dans la BD
 
 def create_liste(dataform):
-    nombre = dataform['nombre']
+    #nombre = int(dataform['nombre'])
+    nombre=1
+    numprenommax, numnommax, numresidencemax, numbanqmax = get_dim()
+    for i in range(nombre):
+        idprenom = randint(1,numprenommax)
+        idnom = randint(1, numnommax)
+        idresidence = randint(1, numresidencemax)
+        idbanq = randint(1, numbanqmax)
+        nom, prenom, adresse, banque = get_info(idprenom,idnom,idresidence,idbanq)
+
 
 
     info = "insComment_success"
-    msg=add_liste()
-    if msg != "":
-        info="insComment_fail"
+    #msg=add_liste()
+    #if msg != "":
+    #    info="insComment_fail"
 
     return info
-
+create_liste(1)
 
 def verif_connect(dataform):
     login = dataform["login"]

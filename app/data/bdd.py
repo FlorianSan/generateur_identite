@@ -115,12 +115,32 @@ def get_dim():
         sql = "SELECT COUNT(idResidence) FROM residence"
         cursor.execute(sql)
         numresidence = cursor.fetchall()[0][0]
-
-    except mysql.connector.Error as err:
-        res = "Failed get data : {}".format(err)
-    finally:
         close_bd(cursor, cnx)
-    return numprenom,numnom,numresidence,numbanq
+        return numprenom, numnom, numresidence, numbanq
+    except mysql.connector.Error as err:
+        close_bd(cursor, cnx)
+        return "Failed get data : {}".format(err)
 
-def get_info(idprenom,idnom,idresidence,idbanq):
-    return
+
+def get_info(idprenom, idnom, idresidence, idbanq):
+    try:
+        cnx = connexion()
+        cursor = cnx.cursor()
+        sql = "SELECT nom FROM nom WHERE idNom=%s"
+        cursor.execute(sql,(idnom,))
+        nom = cursor.fetchall()[0][0]
+        sql = "SELECT prenom FROM prenom WHERE idPrenom=%s"
+        cursor.execute(sql,(idprenom,))
+        prenom = cursor.fetchall()[0][0]
+        sql = "SELECT refBanque FROM banque WHERE idbanque=%s"
+        cursor.execute(sql,(idbanq,))
+        banque = cursor.fetchall()[0][0]
+        sql = "SELECT numero, nom_voie, code_post, nom_commune FROM residence WHERE idResidence=%s"
+        cursor.execute(sql,(idresidence,))
+        adresse = cursor.fetchall()[0]
+        close_bd(cursor, cnx)
+        return nom, prenom, adresse, banque
+    except mysql.connector.Error as err:
+        close_bd(cursor, cnx)
+        return "Failed get data : {}".format(err)
+

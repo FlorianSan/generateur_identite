@@ -123,7 +123,7 @@ def add_residence():
     return msg
 
 if __name__ == '__main__':
-    #print(add_prenom())
-    #print(add_nom())
-    #print(add_banque())
+    print(add_prenom())
+    print(add_nom())
+    print(add_banque())
     print(add_residence())

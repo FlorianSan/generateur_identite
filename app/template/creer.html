@@ -22,7 +22,12 @@
                         <label for="idcard">Carte d'identité</label>
                         <input type="checkbox" name="datenaiss" id="datenaiss" checked="checked">
                         <label for="datenaiss">Date de naissance</label>
-                        <button class="button" type="submit" name="btn_submit" value="form_connect">Créer</button>
+                        {% if session.logged_in %}
+                        <button class="button" type="submit" name="btn_submit" value="creer">Créer</button>
+                        {% else %}
+                        <button class="button" type="submit" name="btn_submit" value="telecharger">Télécharger</button>
+                        {% endif %}
+
                     </form>
 		</section>
 

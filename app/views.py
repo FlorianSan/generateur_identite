@@ -6,7 +6,8 @@ from flask import render_template, request, redirect, url_for
 from . import app
 from app.controllers.formulaire import *
 from app.controllers.functions import *
-
+import os
+FICHIER_TEXTE = os.path.abspath("app/data/export.txt")
 
 @app.route('/')
 def index():
@@ -19,7 +20,15 @@ def liste():
 
 @app.route('/formulaire_creation',methods = ['POST', 'GET'])
 def formulaire_creation():
-    info_add = create_identites(request.form)
+    type = create_identites(request.form)
+    if type == "creer":
+        return redirect(url_for('liste'))
+    else:
+        return redirect(url_for("static", filename="export.txt"))
+
+@app.route('/delete_liste',methods = ['POST', 'GET'])
+def delete_liste():
+    remove_liste(request.form)
     return redirect(url_for('liste'))
 
 @app.route('/connexion',methods = ['POST', 'GET'])

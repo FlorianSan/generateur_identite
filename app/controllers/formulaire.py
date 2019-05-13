@@ -6,35 +6,46 @@ from flask import session
 from app.data.bdd import *
 from random import randint
 from mrz.generator.td1 import TD1CodeGenerator
-from datetime import date
+from datetime import date, timedelta
+import os
 
+FICHIER_TEXTE = os.path.abspath("app/static/export.txt")
 
 ###################################################################################################
 
 
 def create_identites(dataform):
+    type = dataform['btn_submit']
     nombre = int(dataform['nombre'])
     description = dataform['description']
-    idliste = insert_liste(description,session['id'])
     numprenommax, numnommax, numresidencemax, numbanqmax = get_dim()
-    for i in range(nombre):
-        idprenom = randint(1,numprenommax)
-        idnom = randint(1, numnommax)
-        idresidence = randint(1, numresidencemax)
-        idvillenaissance = randint(1, numresidencemax)
-        idbanque = randint(1, numbanqmax)
-        nom, prenom, genre, residence, banq, ville_naissance = get_info(idprenom, idnom, idresidence, idbanque, idvillenaissance)
-        email = str(prenom) + "." + str(nom) + "@gmail.com"
-        numero_insee = "1"
-        numTel ="0638922520"
-        num_carte_banc = "10"
-        iban = "15"
-        date_naissance = "1998-06-04"
-        #mrz = str(TD1CodeGenerator("ID","FRA","BAA000589", "800101", "F", "250101", "FRA", "ESPAÑOLA ESPAÑOLA", "CARMEN", "99999999R"))
-        mrz="10"
-        insert_identite((idnom, idprenom, date_naissance, ville_naissance, idresidence, numero_insee, mrz,  numTel, num_carte_banc, email, iban, genre, idbanque, idliste))
-    return
-
+    if type == "creer":
+        idliste = insert_liste(description,nombre,session['id'])
+        for i in range(nombre):
+            insert_identite((create_identite(numprenommax, numnommax, numresidencemax, numbanqmax),idliste))
+    else:
+        with open(FICHIER_TEXTE, "w") as fichier:
+            for i in range(nombre):
+                fichier.write(str(create_identite(numprenommax, numnommax, numresidencemax, numbanqmax))+"\n")
+    return type
+def create_identite(numprenommax,numnommax,numresidencemax,numbanqmax):
+    idprenom = randint(1, numprenommax)
+    idnom = randint(1, numnommax)
+    idresidence = randint(1, numresidencemax)
+    idvillenaissance = randint(1, numresidencemax)
+    idbanque = randint(1, numbanqmax)
+    nom, prenom, genre, residence, banq, ville_naissance = get_info(idprenom, idnom, idresidence, idbanque,
+                                                                    idvillenaissance)
+    email = str(prenom) + "." + str(nom).lower()+ "@gmail.com"
+    numero_insee = "1"
+    numTel = "0638922520"
+    num_carte_banc = "10"
+    iban = "15"
+    date_naissance = "1998-06-04"
+    mrz = str(TD1CodeGenerator("ID", "FRA", "BAA000589", "800101", "F",
+                               str(date.today() + timedelta(days=5475)).replace("-", "")[2:],
+                               "FRA", "ESPAÑOLA ESPAÑOLA", "CARMEN", "99999999R")).replace('\n',"")
+    return idnom, idprenom, date_naissance, ville_naissance, idresidence, numero_insee, mrz,  numTel, num_carte_banc, email, iban, genre, idbanque
 
 def verif_connect(dataform):
     login = dataform["login"]
@@ -51,3 +62,6 @@ def verif_connect(dataform):
     return page_redirect
 
 
+def remove_liste(dataform):
+    idListe = dataform["btn_submit"]
+    remove_oneListe(idListe)

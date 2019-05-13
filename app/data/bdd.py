@@ -65,7 +65,7 @@ def authentification(login,mdp):
     try:
         cnx = connexion()
         cursor = cnx.cursor()
-        sql = "SELECT * FROM utilisateur WHERE login=%s AND mdp=%s LIMIT 1"
+        sql = "SELECT * FROM utilisateur WHERE login=%s AND mdp=%s LIMIT 1;"
         param = (login, mdp)
         cursor.execute(sql, param)
         res = convert_dictionnary(cursor)
@@ -85,7 +85,7 @@ def get_allListe():
     try:
         cnx = connexion()
         cursor = cnx.cursor()
-        sql = "SELECT * FROM liste_fiche AS lf JOIN Utilisateur AS U ON U.idUtilisateur = lf.idUtilisateur "
+        sql = "SELECT * FROM liste_fiche AS lf JOIN Utilisateur AS U ON U.idUtilisateur = lf.idUtilisateur WHERE lf.idUtilisateur != 2;"
         cursor.execute(sql)
         res = convert_dictionnary(cursor)
     except mysql.connector.Error as err:
@@ -93,6 +93,19 @@ def get_allListe():
     finally:
         close_bd(cursor, cnx)
     return res
+
+def remove_oneListe(idListe):
+    try:
+        cnx = connexion()
+        cursor = cnx.cursor()
+        sql = "DELETE FROM liste_fiche WHERE idListe = %s;"
+        cursor.execute(sql,(idListe,))
+        cnx.commit()
+    except mysql.connector.Error as err:
+        print("Failed get data : {}".format(err))
+    finally:
+        close_bd(cursor, cnx)
+    return
 
 ###################################################################################################
 # recuperer la dimension  de tables de la bdd
@@ -103,16 +116,16 @@ def get_dim():
 
         cnx = connexion()
         cursor = cnx.cursor()
-        sql = "SELECT COUNT(idNom) FROM nom"
+        sql = "SELECT COUNT(idNom) FROM nom;"
         cursor.execute(sql)
         numnom = cursor.fetchall()[0][0]
-        sql = "SELECT COUNT(idPrenom) FROM prenom"
+        sql = "SELECT COUNT(idPrenom) FROM prenom;"
         cursor.execute(sql)
         numprenom = cursor.fetchall()[0][0]
-        sql = "SELECT COUNT(idBanque) FROM banque"
+        sql = "SELECT COUNT(idBanque) FROM banque;"
         cursor.execute(sql)
         numbanq = cursor.fetchall()[0][0]
-        sql = "SELECT COUNT(idResidence) FROM residence"
+        sql = "SELECT COUNT(idResidence) FROM residence;"
         cursor.execute(sql)
         numresidence = cursor.fetchall()[0][0]
         close_bd(cursor, cnx)
@@ -128,16 +141,16 @@ def get_info(idprenom, idnom, idresidence, idbanq, idvillenaissance):
         sql = "SELECT nom FROM nom WHERE idNom=%s"
         cursor.execute(sql,(idnom,))
         nom = cursor.fetchall()[0][0]
-        sql = "SELECT prenom, genre FROM prenom WHERE idPrenom=%s"
+        sql = "SELECT prenom, genre FROM prenom WHERE idPrenom=%s;"
         cursor.execute(sql,(idprenom,))
         prenom,genre = cursor.fetchall()[0]
-        sql = "SELECT refBanque FROM banque WHERE idbanque=%s"
+        sql = "SELECT refBanque FROM banque WHERE idbanque=%s;"
         cursor.execute(sql,(idbanq,))
         banque = cursor.fetchall()[0][0]
-        sql = "SELECT numero, nom_voie, code_post, nom_commune FROM residence WHERE idResidence=%s"
+        sql = "SELECT numero, nom_voie, code_post, nom_commune FROM residence WHERE idResidence=%s;"
         cursor.execute(sql,(idresidence,))
         adresse = cursor.fetchall()[0]
-        sql = "SELECT nom_commune FROM residence WHERE idResidence=%s"
+        sql = "SELECT nom_commune FROM residence WHERE idResidence=%s;"
         cursor.execute(sql, (idvillenaissance,))
         ville_naissance = cursor.fetchall()[0][0]
         close_bd(cursor, cnx)
@@ -146,12 +159,12 @@ def get_info(idprenom, idnom, idresidence, idbanq, idvillenaissance):
         close_bd(cursor, cnx)
         return "Failed get data : {}".format(err)
 
-def insert_liste(description, idUtilisateur):
+def insert_liste(description,nombre, idUtilisateur):
     try:
         cnx = connexion()
         cursor = cnx.cursor()
-        sql = "INSERT INTO liste_fiche(descriptif, idUtilisateur) VALUE (%s,%s);"
-        cursor.execute(sql, (description,idUtilisateur))
+        sql = "INSERT INTO liste_fiche(descriptif, dim, idUtilisateur) VALUE (%s,%s,%s);"
+        cursor.execute(sql, (description,nombre,idUtilisateur))
         cnx.commit()
         sql = "SELECT idListe FROM liste_fiche WHERE descriptif = %s;"
         cursor.execute(sql, (description,))

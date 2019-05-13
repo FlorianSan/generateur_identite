@@ -109,6 +109,7 @@ div.enfant
 
 div.parent:hover .enfant{
 	display:block;
+	color: red;
 }
 
 

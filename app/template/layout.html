@@ -19,6 +19,11 @@
                 Liste
             </a>
         </li>
+        <li>
+            <a href="{{ url_for('create') }}">
+               Créer
+            </a>
+        </li>
 
              {% if not session.logged_in %}
         <li>
@@ -28,11 +33,6 @@
         </li>
 
             {% else %}
-        <li>
-            <a href="{{ url_for('create') }}">
-               Créer
-            </a>
-        </li>
         <li>
             <a href="{{ url_for('logout') }}">
                Se déconnecter
@@ -47,7 +47,7 @@
     {% block header %}{% endblock %}
 
     {% if session.logged_in %}
-    <p>Vous êtes connecté</p>
+    <p>Vous êtes connecté {{session.login}}</p>
     {% endif %}
 
     {% if info %}

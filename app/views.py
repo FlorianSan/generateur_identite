@@ -19,8 +19,8 @@ def liste():
 
 @app.route('/formulaire_creation',methods = ['POST', 'GET'])
 def formulaire_creation():
-    info_add = create_liste(request.form)
-    return redirect(url_for("comment", info=info_add))
+    info_add = create_identites(request.form)
+    return redirect(url_for('liste'))
 
 @app.route('/connexion',methods = ['POST', 'GET'])
 def connexion():

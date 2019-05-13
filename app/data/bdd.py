@@ -130,7 +130,7 @@ def get_info(idprenom, idnom, idresidence, idbanq, idvillenaissance):
         nom = cursor.fetchall()[0][0]
         sql = "SELECT prenom, genre FROM prenom WHERE idPrenom=%s"
         cursor.execute(sql,(idprenom,))
-        prenom = cursor.fetchall()[0]
+        prenom,genre = cursor.fetchall()[0]
         sql = "SELECT refBanque FROM banque WHERE idbanque=%s"
         cursor.execute(sql,(idbanq,))
         banque = cursor.fetchall()[0][0]
@@ -141,19 +141,20 @@ def get_info(idprenom, idnom, idresidence, idbanq, idvillenaissance):
         cursor.execute(sql, (idvillenaissance,))
         ville_naissance = cursor.fetchall()[0][0]
         close_bd(cursor, cnx)
-        return nom, prenom, adresse, banque, ville_naissance
+        return nom, prenom, genre, adresse, banque, ville_naissance
     except mysql.connector.Error as err:
         close_bd(cursor, cnx)
         return "Failed get data : {}".format(err)
 
-def create_liste(info):
+def insert_liste(description, idUtilisateur):
     try:
         cnx = connexion()
         cursor = cnx.cursor()
         sql = "INSERT INTO liste_fiche(descriptif, idUtilisateur) VALUE (%s,%s);"
-        cursor.execute(sql, info)
-        sql = "SELECT idListe FROM liste_fiche WHERE descriptif=%s;"
-        cursor.execute(sql, info[0])
+        cursor.execute(sql, (description,idUtilisateur))
+        cnx.commit()
+        sql = "SELECT idListe FROM liste_fiche WHERE descriptif = %s;"
+        cursor.execute(sql, (description,))
         idliste = cursor.fetchall()[0][0]
     except mysql.connector.Error as err:
         print("Failed get data : {}".format(err))
@@ -161,14 +162,15 @@ def create_liste(info):
         close_bd(cursor, cnx)
     return idliste
 
-def create_identite(info):
+def insert_identite(info):
     try:
         cnx = connexion()
         cursor = cnx.cursor()
         sql = "INSERT INTO individu(idNom , idPrenom, date_naissance, ville_naissance, idResidence, numero_insee, mrz, numTel, num_carte_banc, email, iban, genre, idBanque, idListe) VALUE (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
         cursor.execute(sql, info)
+        cnx.commit()
     except mysql.connector.Error as err:
-        print("Failed get data : {}".format(err))
+        print("Failed post data : {}".format(err))
     finally:
         close_bd(cursor, cnx)
     return

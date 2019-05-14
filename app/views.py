@@ -2,10 +2,9 @@
 # Filename: views.py
 # encoding: utf-8
 
-from flask import render_template, request, redirect, url_for, send_from_directory
+from flask import render_template, request, redirect, url_for, send_from_directory, Response
 from . import app
 from app.controllers.formulaire import *
-from app.controllers.functions import *
 import os
 FICHIER_TEXTE = os.path.abspath("app/data/export.txt")
 
@@ -25,6 +24,7 @@ def formulaire_creation():
         return redirect(url_for('liste'))
     else:
         return send_from_directory(directory='static', filename='export.txt', as_attachment=True)
+
 
 @app.route('/delete_liste',methods = ['POST', 'GET'])
 def delete_liste():
@@ -48,6 +48,10 @@ def login():
 @app.route('/create')
 def create():
     return render_template('creer.html')
+
+@app.route('/progress')
+def progress():
+	return Response(generate(), mimetype= 'text/event-stream')
 
 @app.route('/logout')
 def logout():

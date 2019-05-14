@@ -7,31 +7,42 @@ from app.data.bdd import *
 from random import randint
 from mrz.generator.td1 import TD1CodeGenerator
 from datetime import date, timedelta
+import time
 import os
 
 FICHIER_TEXTE = os.path.abspath("app/static/export.txt")
-
+pourcentage = 0
 ###################################################################################################
 
 
 def create_identites(dataform):
+    global pourcentage
     type = dataform['btn_submit']
     nombre = int(dataform['nombre'])
-
     numprenommax, numnommax, numresidencemax, numbanqmax = get_dim()
     if type == "creer":
         description = dataform['description']
         idliste = insert_liste(description,nombre,session['id'])
         for i in range(nombre):
-            print(create_identite(numprenommax, numnommax, numresidencemax, numbanqmax,idliste))
-            insert_identite(create_identite(numprenommax, numnommax, numresidencemax, numbanqmax,idliste))
+            insert_identite(create_identite(numprenommax, numnommax, numresidencemax, numbanqmax)[0] + (idliste,))
+
+            pourcentage= (i / nombre) * 100
     else:
         with open(FICHIER_TEXTE, "w") as fichier:
             for i in range(nombre):
-                fichier.write(str(create_identite(numprenommax, numnommax, numresidencemax, numbanqmax))+"\n")
+                fichier.write(str(create_identite(numprenommax, numnommax, numresidencemax, numbanqmax)[1])+"\n")
+                pourcentage = (i / nombre) * 100
+    pourcentage = 0
     return type
 
-def create_identite(numprenommax,numnommax,numresidencemax,numbanqmax,idliste):
+
+def generate():
+    global pourcentage
+    yield "data:" + str(round(pourcentage)) + "\n\n"
+
+
+def create_identite(numprenommax,numnommax,numresidencemax,numbanqmax):
+
     idprenom = randint(1, numprenommax)
     idnom = randint(1, numnommax)
     idresidence = randint(1, numresidencemax)
@@ -48,7 +59,10 @@ def create_identite(numprenommax,numnommax,numresidencemax,numbanqmax,idliste):
     mrz = str(TD1CodeGenerator("ID", "FRA", "BAA000589", "800101", "F",
                                str(date.today() + timedelta(days=5475)).replace("-", "")[2:],
                                "FRA", "ESPAÑOLA ESPAÑOLA", "CARMEN", "99999999R")).replace('\n',"")
-    return (idnom, idprenom, date_naissance, ville_naissance, idresidence, numero_insee, mrz,  numTel, num_carte_banc, email, iban, genre, idbanque, idliste)
+    return (idnom, idprenom, date_naissance, ville_naissance, idresidence, numero_insee, mrz,  numTel, num_carte_banc, email, iban, genre, idbanque),(nom, prenom, date_naissance, genre, residence, banq, ville_naissance, numero_insee, mrz,  numTel, num_carte_banc, email, iban)
+
+
+
 
 def verif_connect(dataform):
     login = dataform["login"]

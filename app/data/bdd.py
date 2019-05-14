@@ -93,6 +93,7 @@ def get_allListe():
         close_bd(cursor, cnx)
     return res
 
+
 def get_oneListe(idListe):
     try:
         cnx = connexion()

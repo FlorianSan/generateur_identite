@@ -81,7 +81,6 @@ def authentification(login,mdp):
 
 
 def get_allListe():
-
     try:
         cnx = connexion()
         cursor = cnx.cursor()
@@ -93,6 +92,20 @@ def get_allListe():
     finally:
         close_bd(cursor, cnx)
     return res
+
+def get_oneListe(idListe):
+    try:
+        cnx = connexion()
+        cursor = cnx.cursor()
+        sql = "SELECT nom, prenom, date_naissance, ville_naissance, numero, nom_voie, code_post, nom_commune, numero_insee, mrz, numTel, email, num_carte_banc, iban  FROM liste_fiche AS lf JOIN Individu AS I ON I.idListe = lf.idListe JOIN Nom AS N ON N.idNom = I.idNom JOIN prenom AS P ON P.idPrenom=I.idPrenom JOIN banque AS B ON B.idBanque = I.idBanque JOIN residence AS R ON R.idResidence=I.idResidence WHERE lf.idListe = %s;"
+        cursor.execute(sql,(idListe,))
+        res = cursor.fetchall()
+    except mysql.connector.Error as err:
+        print("Failed get data : {}".format(err))
+    finally:
+        close_bd(cursor, cnx)
+    return res
+
 
 def remove_oneListe(idListe):
     try:

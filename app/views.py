@@ -2,7 +2,7 @@
 # Filename: views.py
 # encoding: utf-8
 
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, send_from_directory
 from . import app
 from app.controllers.formulaire import *
 from app.controllers.functions import *
@@ -24,12 +24,17 @@ def formulaire_creation():
     if type == "creer":
         return redirect(url_for('liste'))
     else:
-        return redirect(url_for("static", filename="export.txt"))
+        return send_from_directory(directory='static', filename='export.txt', as_attachment=True)
 
 @app.route('/delete_liste',methods = ['POST', 'GET'])
 def delete_liste():
     remove_liste(request.form)
     return redirect(url_for('liste'))
+
+@app.route('/download_liste',methods = ['POST', 'GET'])
+def download_liste():
+    preparation_download_liste(request.form)
+    return send_from_directory(directory='static', filename='export.txt', as_attachment=True)
 
 @app.route('/connexion',methods = ['POST', 'GET'])
 def connexion():

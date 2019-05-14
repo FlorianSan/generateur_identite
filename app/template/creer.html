@@ -16,7 +16,9 @@
   <section id="clubs">
                     <form method="post" action="{{ url_for('formulaire_creation') }}">
                         <input name="nombre" placeholder="Nombre d'identité" type="number" />
+                        {% if session.logged_in %}
                         <input name="description" placeholder="Description" type="textarea" />
+                        {% endif %}
 
                         <input type="checkbox" name="idcard" id="idcard" checked="checked">
                         <label for="idcard">Carte d'identité</label>

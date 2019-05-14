@@ -17,18 +17,21 @@ FICHIER_TEXTE = os.path.abspath("app/static/export.txt")
 def create_identites(dataform):
     type = dataform['btn_submit']
     nombre = int(dataform['nombre'])
-    description = dataform['description']
+
     numprenommax, numnommax, numresidencemax, numbanqmax = get_dim()
     if type == "creer":
+        description = dataform['description']
         idliste = insert_liste(description,nombre,session['id'])
         for i in range(nombre):
-            insert_identite((create_identite(numprenommax, numnommax, numresidencemax, numbanqmax),idliste))
+            print(create_identite(numprenommax, numnommax, numresidencemax, numbanqmax,idliste))
+            insert_identite(create_identite(numprenommax, numnommax, numresidencemax, numbanqmax,idliste))
     else:
         with open(FICHIER_TEXTE, "w") as fichier:
             for i in range(nombre):
                 fichier.write(str(create_identite(numprenommax, numnommax, numresidencemax, numbanqmax))+"\n")
     return type
-def create_identite(numprenommax,numnommax,numresidencemax,numbanqmax):
+
+def create_identite(numprenommax,numnommax,numresidencemax,numbanqmax,idliste):
     idprenom = randint(1, numprenommax)
     idnom = randint(1, numnommax)
     idresidence = randint(1, numresidencemax)
@@ -45,7 +48,7 @@ def create_identite(numprenommax,numnommax,numresidencemax,numbanqmax):
     mrz = str(TD1CodeGenerator("ID", "FRA", "BAA000589", "800101", "F",
                                str(date.today() + timedelta(days=5475)).replace("-", "")[2:],
                                "FRA", "ESPAÑOLA ESPAÑOLA", "CARMEN", "99999999R")).replace('\n',"")
-    return idnom, idprenom, date_naissance, ville_naissance, idresidence, numero_insee, mrz,  numTel, num_carte_banc, email, iban, genre, idbanque
+    return (idnom, idprenom, date_naissance, ville_naissance, idresidence, numero_insee, mrz,  numTel, num_carte_banc, email, iban, genre, idbanque, idliste)
 
 def verif_connect(dataform):
     login = dataform["login"]
@@ -65,3 +68,10 @@ def verif_connect(dataform):
 def remove_liste(dataform):
     idListe = dataform["btn_submit"]
     remove_oneListe(idListe)
+
+def preparation_download_liste(dataform):
+    idListe = dataform["btn_download"]
+    liste = get_oneListe(idListe)
+    with open(FICHIER_TEXTE, "w") as fichier:
+        for i in range(len(liste)):
+            fichier.write(str(liste[i])+"\n")

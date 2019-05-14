@@ -19,12 +19,22 @@
             <div class="parent">
                 <p>{{ligne.idListe}} - {{ligne.descriptif}}</p>
                 <div class="enfant">
-                    {{ligne.login}}{{ligne.dim}}
+                    {{ligne.login}},{{ligne.dim}}
+                    <form method="post" action="{{ url_for('download_liste') }}">
+                          <button class="button" type="submit" name="btn_download" value={{ligne.idListe}}>Télécharger</button>
+                     </form>
                     {% if session.privilege == 0 %}
                      <form method="post" action="{{ url_for('delete_liste') }}">
                           <button class="button" type="submit" name="btn_submit" value={{ligne.idListe}}>Supprimer</button>
                      </form>
+                    {% else %}
+                        {% if session.id == ligne.idUtilisateur %}
+                            <form method="post" action="{{ url_for('delete_liste') }}">
+                                 <button class="button" type="submit" name="btn_submit" value={{ligne.idListe}}>Supprimer</button>
+                            </form>
+                        {% endif %}
                     {% endif %}
+
                 </div>
             </div>
 

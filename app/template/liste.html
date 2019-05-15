@@ -23,6 +23,9 @@
                     <form method="post" action="{{ url_for('download_liste') }}">
                           <button class="button" type="submit" name="btn_download" value={{ligne.idListe}}>Télécharger</button>
                      </form>
+                    <form method="post" action="{{ url_for('selecteur') }}">
+                          <button class="button" type="submit" name="btn_visualiser" value={{ligne.idListe}}>Visualiser</button>
+                     </form>
                     {% if session.privilege == 0 %}
                      <form method="post" action="{{ url_for('delete_liste') }}">
                           <button class="button" type="submit" name="btn_submit" value={{ligne.idListe}}>Supprimer</button>

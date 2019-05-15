@@ -17,6 +17,16 @@ def liste():
     liste_id = get_allListe()
     return render_template('liste.html', data=liste_id)
 
+@app.route('/sublist',methods = ['POST', 'GET'])
+def sublist():
+    one_liste = visu_liste(request.form)
+    return render_template('sublist.html', data=one_liste)
+
+@app.route('/selecteur',methods = ['POST', 'GET'])
+def selecteur():
+    idListe = request.form["btn_visualiser"]
+    return render_template('selecteur.html', data=(idListe,))
+
 @app.route('/formulaire_creation',methods = ['POST', 'GET'])
 def formulaire_creation():
     type = create_identites(request.form)

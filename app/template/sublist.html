@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    ID Creator Liste
+{% endblock %}
+
+
+{% block header %}
+    <header id="top2">
+        <h1>Liste</h1>
+    </header>
+{% endblock %}
+
+
+{% block content %}
+    <section id="liste">
+        <ol>
+            {% for ligne in data %}
+
+                <p>{{ligne.nom}} - {{ligne.prenom}} - {{ligne.date_naissance}} - {{ligne.ville_naissance}}</p>
+
+
+            {% endfor %}
+        </ol>
+    </section>
+{% endblock %}

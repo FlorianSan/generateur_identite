@@ -10,7 +10,7 @@ config = {
         'user': 'root',
         'password': '',
         'host': 'localhost',
-        'database': 'identite',
+        'database': 'IENAC18_identite',
         'raise_on_warnings': True
     }
 
@@ -100,7 +100,7 @@ def get_oneListe(idListe):
         cursor = cnx.cursor()
         sql = "SELECT nom, prenom, date_naissance, ville_naissance, numero, nom_voie, code_post, nom_commune, numero_insee, mrz, numTel, email, num_carte_banc, iban  FROM liste_fiche AS lf JOIN Individu AS I ON I.idListe = lf.idListe JOIN Nom AS N ON N.idNom = I.idNom JOIN prenom AS P ON P.idPrenom=I.idPrenom JOIN banque AS B ON B.idBanque = I.idBanque JOIN residence AS R ON R.idResidence=I.idResidence WHERE lf.idListe = %s;"
         cursor.execute(sql,(idListe,))
-        res = cursor.fetchall()
+        res = convert_dictionnary(cursor)
     except mysql.connector.Error as err:
         print("Failed get data : {}".format(err))
     finally:
@@ -163,10 +163,14 @@ def get_info(idprenom, idnom, idresidence, idbanq, idvillenaissance):
         banque = cursor.fetchall()[0][0]
         sql = "SELECT numero, nom_voie, code_post, nom_commune FROM residence WHERE idResidence=%s;"
         cursor.execute(sql,(idresidence,))
-        adresse = cursor.fetchall()[0]
+        adresse = cursor.fetchall()
+        if len(adresse)==1:
+            adresse = adresse[0]
         sql = "SELECT nom_commune FROM residence WHERE idResidence=%s;"
         cursor.execute(sql, (idvillenaissance,))
-        ville_naissance = cursor.fetchall()[0][0]
+        ville_naissance = cursor.fetchall()
+        if len(ville_naissance) == 1:
+            ville_naissance = ville_naissance[0][0]
         close_bd(cursor, cnx)
         return nom, prenom, genre, adresse, banque, ville_naissance
     except mysql.connector.Error as err:

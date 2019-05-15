@@ -11,7 +11,7 @@ config = {
         'user': 'root',
         'password': '',
         'host': 'localhost',
-        'database': 'identite',
+        'database': 'IENAC18_identite',
         'raise_on_warnings': True
     }
 

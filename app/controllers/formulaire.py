@@ -4,9 +4,12 @@
 
 from flask import session
 from app.data.bdd import *
-from random import randint
+from random import randint, randrange
 from mrz.generator.td1 import TD1CodeGenerator
 from datetime import date, timedelta
+from schwifty import IBAN
+
+from app.controllers.carte_identite import credit_card_number
 import time
 import os
 
@@ -45,12 +48,13 @@ def generate():
 
 def create_identite(numprenommax,numnommax,numresidencemax,numbanqmax, dataform):
 
+
     idprenom = randint(1, numprenommax)
     idnom = randint(1, numnommax)
     idbanque = randint(1, numbanqmax)
 
     if 'datenaiss' in dataform:
-        date_naissance = "1998-06-04"
+        date_naissance = time.strftime('%Y/%m/%d', time.gmtime(randint(0, int(time.time()))))
     else:
         date_naissance = None
 
@@ -70,19 +74,34 @@ def create_identite(numprenommax,numnommax,numresidencemax,numbanqmax, dataform)
     if not(ville_naissance):
         ville_naissance = None
     if 'numero_insee'in dataform:
-        numero_insee = "1"
+        num=[]
+        if genre == 'm':
+            num.append('1')
+        else:
+            num.append('2')
+        num.append(str(date_naissance[2:4]))
+        num.append(str(date_naissance[5:7]))
+        num.append(str(ville_naissance[2]))
+        num.append(str(n_len_rand(3)))
+        cle = 97 - (int(''.join(num))%97)
+        num.append(str(cle))
+        numero_insee = str(''.join(num))
+
     else:
         numero_insee = None
 
     if 'idcard'in dataform:
-        mrz = str(TD1CodeGenerator("ID", "FRA", "BAA000589", "800101", "F",
+        mrz = str(TD1CodeGenerator("ID", "FRA", str(randint(1, 1000000)), date_naissance.replace("/","")[2:], str.upper(genre)[0],
                                    str(date.today() + timedelta(days=5475)).replace("-", "")[2:],
-                                   "FRA", "ESPAÑOLA ESPAÑOLA", "CARMEN", "99999999R")).replace('\n', "")
+                                   "FRA", nom[:4],prenom[:29], "99999999R")).replace('\n', "")
     else:
         mrz = None
 
     if 'numTel' in dataform:
-        numTel = "0638922520"
+        num = ['0', '6']
+        for i in range(8):
+            num.append(str(randint(0, 9)))
+        numTel = str(''.join(num))
     else:
         numTel = None
 
@@ -92,15 +111,17 @@ def create_identite(numprenommax,numnommax,numresidencemax,numbanqmax, dataform)
         email = None
 
     if 'num_carte_banc' in dataform:
-        num_carte_banc = "111555"
+        num_carte_banc = str(credit_card_number())
     else:
         num_carte_banc = None
 
     if 'iban' in dataform:
-        iban = "15"
+        compte = str(randint(1, 1000000000000000000))
+        bank_code = str(randint(10000, 99999))
+        iban = str(IBAN.generate('FR', bank_code=bank_code, account_code=compte))
     else:
         iban = None
-    return (idnom, idprenom, date_naissance, ville_naissance, idresidence, numero_insee, mrz,  numTel, num_carte_banc, email, iban, genre, idbanque),(nom, prenom, date_naissance, genre, residence, banq, ville_naissance, numero_insee, mrz,  numTel, num_carte_banc, email, iban)
+    return (idnom, idprenom, date_naissance, ville_naissance[0], idresidence, numero_insee, mrz,  numTel, num_carte_banc, email, iban, genre, idbanque),(nom, prenom, date_naissance, ville_naissance[0], residence,  numero_insee, mrz,  numTel, num_carte_banc, email, iban, genre,)
 
 
 
@@ -135,4 +156,10 @@ def preparation_download_liste(dataform):
     liste = get_oneListe(idListe)
     with open(FICHIER_TEXTE, "w") as fichier:
         for i in range(len(liste)):
-            fichier.write(str(liste[i])+"\n")
+            fichier.write( str((liste[i]["nom"],liste[i]["prenom"],str(liste[i]["date_naissance"]).replace("-","/"),liste[i]["ville_naissance"],(liste[i]["numero"],liste[i]["nom_voie"],liste[i]["code_post"],liste[i]["nom_commune"]),liste[i]["numero_insee"],liste[i]["mrz"],liste[i]["numTel"],liste[i]["num_carte_banc"],liste[i]["email"],liste[i]["iban"],liste[i]["genre"])) + "\n")
+
+def n_len_rand(len_, floor=1):
+    top = 10**len_
+    if floor > top:
+        raise ValueError(f"Floor {floor} must be less than requested top {top}")
+    return f'{randrange(floor, top):0{len_}}'

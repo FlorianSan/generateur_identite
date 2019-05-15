@@ -98,7 +98,7 @@ def get_oneListe(idListe):
     try:
         cnx = connexion()
         cursor = cnx.cursor()
-        sql = "SELECT nom, prenom, date_naissance, ville_naissance, numero, nom_voie, code_post, nom_commune, numero_insee, mrz, numTel, email, num_carte_banc, iban  FROM liste_fiche AS lf JOIN Individu AS I ON I.idListe = lf.idListe JOIN Nom AS N ON N.idNom = I.idNom JOIN prenom AS P ON P.idPrenom=I.idPrenom JOIN banque AS B ON B.idBanque = I.idBanque JOIN residence AS R ON R.idResidence=I.idResidence WHERE lf.idListe = %s;"
+        sql = "SELECT nom, prenom, date_naissance, ville_naissance, numero, nom_voie, code_post, nom_commune, numero_insee, mrz, numTel, email, num_carte_banc, iban, I.genre  FROM liste_fiche AS lf JOIN Individu AS I ON I.idListe = lf.idListe JOIN Nom AS N ON N.idNom = I.idNom JOIN prenom AS P ON P.idPrenom=I.idPrenom JOIN banque AS B ON B.idBanque = I.idBanque JOIN residence AS R ON R.idResidence=I.idResidence WHERE lf.idListe = %s;"
         cursor.execute(sql,(idListe,))
         res = convert_dictionnary(cursor)
     except mysql.connector.Error as err:
@@ -166,11 +166,11 @@ def get_info(idprenom, idnom, idresidence, idbanq, idvillenaissance):
         adresse = cursor.fetchall()
         if len(adresse)==1:
             adresse = adresse[0]
-        sql = "SELECT nom_commune FROM residence WHERE idResidence=%s;"
+        sql = "SELECT nom_commune, code_post, code_insee FROM residence WHERE idResidence=%s;"
         cursor.execute(sql, (idvillenaissance,))
         ville_naissance = cursor.fetchall()
         if len(ville_naissance) == 1:
-            ville_naissance = ville_naissance[0][0]
+            ville_naissance = ville_naissance[0]
         close_bd(cursor, cnx)
         return nom, prenom, genre, adresse, banque, ville_naissance
     except mysql.connector.Error as err:

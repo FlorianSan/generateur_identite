@@ -38,7 +38,7 @@ def add_nom():
         cnx = connexion()
         cursor = cnx.cursor()
         sql = "INSERT INTO Nom (nom) VALUES (%s);"
-        fichier = open(NOM, "r")
+        fichier = open(NOM, "r", encoding='UTF_8')
         l=[]
         for ligne in fichier:
             data = (ligne.split()[0],)
@@ -60,7 +60,7 @@ def add_prenom():
         cnx = connexion()
         cursor = cnx.cursor()
         sql = "INSERT INTO Prenom (prenom, genre) VALUES (%s, %s);"
-        fichier = open(PRENOM, "r")
+        fichier = open(PRENOM, "r", encoding='UTF_8')
         l=[]
         for ligne in fichier:
             data = ligne.replace('\x00','').replace('\n','').split("\t")
@@ -82,7 +82,7 @@ def add_banque():
         cnx = connexion()
         cursor = cnx.cursor()
         sql = "INSERT INTO Banque (refBanque) VALUES (%s);"
-        fichier = open(BANQUES, "r")
+        fichier = open(BANQUES, "r", encoding='UTF_8')
         l=[]
         for ligne in fichier:
             data = ligne.replace('\x00','').replace('\n','').split("\t")
@@ -104,15 +104,14 @@ def add_residence():
     try:
         cnx = connexion()
         cursor = cnx.cursor()
-        sql = "INSERT INTO Residence (numero, nom_voie, code_post, nom_commune) VALUES (%s, %s, %s, %s);"
-        fichier = open('fichier_bdd/BAN_licence_gratuite_repartage_12.txt', "r")
+        sql = "INSERT INTO Residence (numero, nom_voie, code_post, nom_commune, code_insee) VALUES (%s, %s, %s, %s, %s);"
+        fichier = open('fichier_bdd/BAN_licence_gratuite_repartage_12.txt', "r", encoding='UTF_8')
         l=[]
         for ligne in fichier:
             data = ligne.replace('\x00','').replace('\n','').split(";")
             if data[3] and data[1] and data[6] and data[15]:
-                d = (data[3],data[1],data[6],data[15])
+                d = (data[3],data[1],data[6],data[15],data[5])
                 l.append(d)
-
         cursor.executemany(sql, l[:10000])
         cnx.commit()
         fichier.close()

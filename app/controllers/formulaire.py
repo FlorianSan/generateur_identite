@@ -149,6 +149,32 @@ def visu_liste(dataform):
     idListe = dataform["btn_visualiser"]
     nombre = int(dataform["nombre"])
     oneliste = get_oneListe(idListe)
+    for i in range(len(oneliste)):
+        if not('datenaiss') in dataform:
+            del oneliste[i]["date_naissance"]
+        if not ('ville_naissance') in dataform:
+            del oneliste[i]["ville_naissance"]
+        if not ('adresse') in dataform:
+            del oneliste[i]["numero"]
+            del oneliste[i]["nom_voie"]
+            del oneliste[i]["code_post"]
+            del oneliste[i]["nom_commune"]
+        if not ('insee') in dataform:
+            del oneliste[i]["numero_insee"]
+        if not ('idcard') in dataform:
+            del oneliste[i]["mrz"]
+        if not ('numTel') in dataform:
+            del oneliste[i]["numTel"]
+        if not ('email') in dataform:
+            del oneliste[i]["email"]
+        if not ('num_carte_banc') in dataform:
+            del oneliste[i]["num_carte_banc"]
+        if not ('iban') in dataform:
+            del oneliste[i]["iban"]
+        if not ('genre') in dataform:
+            del oneliste[i]["genre"]
+
+
     return oneliste[:nombre]
 
 def preparation_download_liste(dataform):

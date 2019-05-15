@@ -22,20 +22,22 @@
                         <label for="datenaiss">Date de naissance</label>
                         <input type="checkbox" name="ville_naissance" id="ville_naissance" checked="checked">
                         <label for="ville_naissance">Ville naissance</label>
-                        <input type="checkbox" name="adresse" id="adresse" checked="checked">
+                        <input type="checkbox" name="adresse" id="adresse" >
                         <label for="adresse">Adresse</label>
-                        <input type="checkbox" name="numero_insee" id="numero_insee" checked="checked">
-                        <label for="numero_insee">Numero de sécurité sociale</label>
-                        <input type="checkbox" name="idcard" id="idcard" checked="checked">
+                        <input type="checkbox" name="insee" id="insee" >
+                        <label for="insee">Numero de sécurité sociale</label>
+                        <input type="checkbox" name="idcard" id="idcard" >
                         <label for="idcard">Carte d'identité</label>
-                        <input type="checkbox" name="numTel" id="numTel" checked="checked">
+                        <input type="checkbox" name="numTel" id="numTel" >
                         <label for="numTel">Numero de téléphone</label>
-                        <input type="checkbox" name="email" id="email" checked="checked">
+                        <input type="checkbox" name="email" id="email" >
                         <label for="email">Mail</label>
-                        <input type="checkbox" name="num_carte_banc" id="num_carte_banc" checked="checked">
+                        <input type="checkbox" name="num_carte_banc" id="num_carte_banc" >
                         <label for="num_carte_banc">Carte bancaire</label>
-                        <input type="checkbox" name="iban" id="iban" checked="checked">
+                        <input type="checkbox" name="iban" id="iban">
                         <label for="iban">Iban</label>
+                        <input type="checkbox" name="genre" id="genre">
+                        <label for="genre">Genre</label>
                         <button class="button" type="submit" name="btn_visualiser" value={{ligne}}>Visualiser</button>
                      </form>
                     {% endfor %}

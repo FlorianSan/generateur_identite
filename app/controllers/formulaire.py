@@ -93,7 +93,7 @@ def create_identite(numprenommax,numnommax,numresidencemax,numbanqmax, dataform)
     if 'idcard'in dataform:
         mrz = str(TD1CodeGenerator("ID", "FRA", str(randint(1, 1000000)), date_naissance.replace("/","")[2:], str.upper(genre)[0],
                                    str(date.today() + timedelta(days=5475)).replace("-", "")[2:],
-                                   "FRA", nom[:4],prenom[:29], "99999999R")).replace('\n', "")
+                                   "FRA", '123' ,prenom[:29], "99999999R")).replace('\n', "") #nom[:4]
     else:
         mrz = None
 
@@ -148,7 +148,7 @@ def remove_liste(dataform):
 def visu_liste(dataform):
     idListe = dataform["btn_visualiser"]
     nombre = int(dataform["nombre"])
-    oneliste = get_oneListe(idListe)
+    oneliste = get_oneListe(idListe)[:nombre]
     for i in range(len(oneliste)):
         if not('datenaiss') in dataform:
             del oneliste[i]["date_naissance"]
@@ -173,9 +173,7 @@ def visu_liste(dataform):
             del oneliste[i]["iban"]
         if not ('genre') in dataform:
             del oneliste[i]["genre"]
-
-
-    return oneliste[:nombre]
+    return oneliste
 
 def preparation_download_liste(dataform):
     idListe = dataform["btn_download"]

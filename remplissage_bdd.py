@@ -105,16 +105,19 @@ def add_residence():
         cnx = connexion()
         cursor = cnx.cursor()
         sql = "INSERT INTO Residence (numero, nom_voie, code_post, nom_commune, code_insee) VALUES (%s, %s, %s, %s, %s);"
-        fichier = open('fichier_bdd/BAN_licence_gratuite_repartage_12.txt', "r", encoding='UTF_8')
-        l=[]
-        for ligne in fichier:
-            data = ligne.replace('\x00','').replace('\n','').split(";")
-            if data[3] and data[1] and data[6] and data[15]:
-                d = (data[3],data[1],data[6],data[15],data[5])
-                l.append(d)
-        cursor.executemany(sql, l[:10000])
-        cnx.commit()
-        fichier.close()
+        for num in [12,46,31]:
+            fichier = open('fichier_bdd/BAN_licence_gratuite_repartage_'+str(num)+'.txt', "r", encoding='UTF_8')
+            l=[]
+            for ligne in fichier:
+                data = ligne.replace('\x00','').replace('\n','').split(";")
+                if data[3] and data[1] and data[6] and data[15]:
+                    d = (data[3],data[1],data[6],data[15],data[5])
+                    l.append(d)
+            cursor.executemany(sql, l[:10000])
+            cursor.executemany(sql, l[10000:20000])
+            cursor.executemany(sql, l[20000:30000])
+            cnx.commit()
+            fichier.close()
     except mysql.connector.Error as err:
         msg = "Failed add_in_table : {}".format(err)
     finally:

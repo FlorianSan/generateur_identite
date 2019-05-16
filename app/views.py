@@ -68,5 +68,8 @@ def logout():
    session.clear()
    return redirect(url_for('index'))
 
+@app.route('/webmaster')
+def webmaster():
+   return render_template('webmaster.html')
 
 

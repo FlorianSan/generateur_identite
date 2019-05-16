@@ -11,6 +11,8 @@ form
 form input[type="text"],
 form input[type="email"],
 form input[type="password"],
+form input[type="text"],
+form input[type="number"],
 form select,
 form textarea
 {
@@ -27,6 +29,9 @@ form textarea
 {
     min-height: 11em;
 }
+form input[type="checkbox"]
+{
+}
 
 ::-webkit-input-placeholder,
 ::-moz-placeholder,
@@ -36,4 +41,3 @@ input:-moz-placeholder,
     color: #555 !important;
 }
 
-form textarea {min-height: 11em;}

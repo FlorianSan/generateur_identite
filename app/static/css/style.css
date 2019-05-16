@@ -4,11 +4,8 @@
 
 body
   {
-     background-color: #5e42a6;
-     background-image: url(images/intro.svg);
+     background-color: #F6F2F2;
      background-size: 100% 100%;
-     background-position: top right;
-     background-repeat: no-repeat;
      font-family: 'Source Sans Pro';
      font-weight: 300;
      color: #777;
@@ -23,7 +20,7 @@ body
 
 header
 {
-  border-bottom: 2px solid #e5e5e5;
+
   padding:100px 0;
   margin:0 50px;
 }
@@ -36,7 +33,7 @@ header#top2
 	{
 
    	font-weight: 700;
-   	color: #ffffff;
+   	color: #000000;
    	font-size: 2.5em;
    	letter-spacing: 15px;
 	}
@@ -55,8 +52,7 @@ header#top2
 ********************************************************************************/
 section
 {
-  border-top: 2px solid #e5e5e5;
-  border-bottom: 2px solid #e5e5e5;
+
   margin:10px 50px;
   text-align: center;
 }
@@ -81,11 +77,7 @@ section
 	        margin-top:60px;
 	    }
 
-	    section article img
-	    {
-		    width:100%;
-		    border: solid 6px #ebebeb;
-	    }
+
 
         section#contacter,
         section#connecter
@@ -121,37 +113,9 @@ footer
   	width:100%;
 	color: white;
   	background-color: #666;
-  	border-top: 2px solid #e5e5e5;
+
   	padding:50px 10px;
 
-}
-
-
-#comment ol, #comment ol li
-{text-align:left;}
-
-
-#comment h6
-{
-	font-size:1.2em;
-	font-weight: bold;
-}
-
-
-#comment ol li .fa-times
-{
-	color:Tomato;
-	font-size: 1.5em;
-	cursor:pointer;
-}
-
-#comment ol li p
-{
-	display:inline-block;
-	border-left:1px solid lightgrey;
-	padding-left: 10px;
-	margin-left: 10px;
-}
 
 div.info
 {

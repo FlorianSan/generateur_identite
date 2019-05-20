@@ -17,18 +17,19 @@
         <ol>
             {% for ligne in data %}
             <div class="parent">
-                <p>{{ligne.idListe}} - {{ligne.descriptif}}</p>
+                <p>Descriptif : {{ligne.descriptif}}</p>
                 <div class="enfant">
-                    {{ligne.login}},{{ligne.dim}}
+                    Nom du créateur : {{ligne.login}}<br/>
+                    Nombre d'identité du jeu : {{ligne.dim}}
                     <form method="post" action="{{ url_for('download_liste') }}">
-                          <button class="button" type="submit" name="btn_download" value={{ligne.idListe}}>Télécharger</button>
+                          <button class="button2" type="submit" name="btn_download" value={{ligne.idListe}}>Télécharger</button>
                      </form>
                     <form method="post" action="{{ url_for('selecteur') }}">
-                          <button class="button" type="submit" name="btn_visualiser" value={{ligne.idListe}}>Visualiser</button>
+                          <button class="button2" type="submit" name="btn_visualiser" value={{ligne.idListe}}>Visualiser</button>
                      </form>
                     {% if session.privilege == 0 %}
                      <form method="post" action="{{ url_for('delete_liste') }}">
-                          <button class="button" type="submit" name="btn_submit" value={{ligne.idListe}}>Supprimer</button>
+                          <button class="button2" type="submit" name="btn_submit" value={{ligne.idListe}}>Supprimer</button>
                      </form>
                     {% else %}
                         {% if session.id == ligne.idUtilisateur %}

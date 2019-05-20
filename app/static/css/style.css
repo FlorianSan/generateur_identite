@@ -86,7 +86,14 @@ section
             margin:0;
         }
 
+.lien{
+color: #777;
+}
+.lien:hover{
+color: black;
+}
 
+}
 div.search input
 {
     width:250px;

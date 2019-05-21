@@ -1,7 +1,7 @@
 ﻿
-CREATE DATABASE IF NOT EXISTS IENAC18_identite;
+CREATE DATABASE IF NOT EXISTS IENAC18_sansou_thiboult_vanhersecke_identite;
 
-USE IENAC18_identite;
+USE IENAC18_sansou_thiboult_vanhersecke_identite;
 
 CREATE TABLE IF NOT EXISTS Utilisateur
 (

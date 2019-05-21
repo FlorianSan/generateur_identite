@@ -11,7 +11,7 @@ config = {
         'user': 'root',
         'password': '',
         'host': 'localhost',
-        'database': 'IENAC18_identite',
+        'database': 'IENAC18_sansou_thiboult_vanhersecke_identite',
         'raise_on_warnings': True
     }
 

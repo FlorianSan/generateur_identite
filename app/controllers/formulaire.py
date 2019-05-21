@@ -28,9 +28,7 @@ def create_identites(dataform):
         description = dataform['description']
         idliste = insert_liste(description,nombre,session['id'])
         for i in range(nombre):
-            print(create_identite(numprenommax, numnommax, numresidencemax, numbanqmax, dataform)[0] + (idliste,))
             insert_identite(create_identite(numprenommax, numnommax, numresidencemax, numbanqmax, dataform)[0] + (idliste,))
-
             pourcentage= (i / nombre) * 100
     else:
         with open(FICHIER_TEXTE, "w") as fichier:

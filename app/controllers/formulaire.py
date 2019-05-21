@@ -22,6 +22,7 @@ def create_identites(dataform):
     global pourcentage
     type = dataform['btn_submit']
     nombre = int(dataform['nombre'])
+
     numprenommax, numnommax, numresidencemax, numbanqmax = get_dim()
 
     if type == "creer":
@@ -31,9 +32,12 @@ def create_identites(dataform):
             insert_identite(create_identite(numprenommax, numnommax, numresidencemax, numbanqmax, dataform)[0] + (idliste,))
             pourcentage= (i / nombre) * 100
     else:
+        separateur = str(dataform["separateur"])
         with open(FICHIER_TEXTE, "w") as fichier:
             for i in range(nombre):
-                fichier.write(str(create_identite(numprenommax, numnommax, numresidencemax, numbanqmax, dataform)[1])+"\n")
+                info = create_identite(numprenommax, numnommax, numresidencemax, numbanqmax, dataform)[1]
+                print(info)
+                fichier.write( str(info[0]) + separateur + str(info[1]) + separateur + str(info[2]).replace("-","/") + separateur + str(info[3]) + separateur + str(info[4][0]) + separateur + str(info[4][1]) + separateur + str(info[4][2]) + separateur + str(info[4][3]) + separateur + str(info[5]) + separateur + str(info[6]) + separateur + str(info[7]) + separateur + str(info[8]) + separateur + str(info[9]) + separateur + str(info[10]) + separateur + str(info[11]) + "\n")
                 pourcentage = (i / nombre) * 100
     pourcentage = 0
     return type

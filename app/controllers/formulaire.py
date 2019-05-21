@@ -176,10 +176,11 @@ def visu_liste(dataform):
 
 def preparation_download_liste(dataform):
     idListe = dataform["btn_download"]
+    separateur = str(dataform["separateur"])
     liste = get_oneListe(idListe)
     with open(FICHIER_TEXTE, "w") as fichier:
         for i in range(len(liste)):
-            fichier.write( str((liste[i]["nom"],liste[i]["prenom"],str(liste[i]["date_naissance"]).replace("-","/"),liste[i]["ville_naissance"],(liste[i]["numero"],liste[i]["nom_voie"],liste[i]["code_post"],liste[i]["nom_commune"]),liste[i]["numero_insee"],liste[i]["mrz"],liste[i]["numTel"],liste[i]["num_carte_banc"],liste[i]["email"],liste[i]["iban"],liste[i]["genre"])) + "\n")
+            fichier.write( str(liste[i]["nom"]) + separateur + str(liste[i]["prenom"]) + separateur + str(liste[i]["date_naissance"]).replace("-","/") + separateur + str(liste[i]["ville_naissance"]) + separateur + str(liste[i]["numero"]) + separateur + str(liste[i]["nom_voie"]) + separateur + str(liste[i]["code_post"]) + separateur + str(liste[i]["nom_commune"]) + separateur + str(liste[i]["numero_insee"]) + separateur + str(liste[i]["mrz"]) + separateur + str(liste[i]["numTel"]) + separateur + str(liste[i]["num_carte_banc"]) + separateur + str(liste[i]["email"]) + separateur + str(liste[i]["iban"]) + separateur + str(liste[i]["genre"]) + "\n")
 
 def n_len_rand(len_, floor=1):
     top = 10**len_

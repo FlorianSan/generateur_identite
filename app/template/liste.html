@@ -23,7 +23,8 @@
                     Nom du créateur : {{ligne.login}}<br/>
                     Nombre d'identité du jeu : {{ligne.dim}}
                     <form method="post" action="{{ url_for('download_liste') }}">
-                          <button class="button2" type="submit" name="btn_download" value={{ligne.idListe}}>Télécharger</button>
+                        <input name="separateur" placeholder="Séparateur" type="text" required />
+                        <button class="button2" type="submit" name="btn_download" value={{ligne.idListe}}>Télécharger</button>
                      </form>
                     <form method="post" action="{{ url_for('selecteur') }}">
                           <button class="button2" type="submit" name="btn_visualiser" value={{ligne.idListe}}>Visualiser</button>

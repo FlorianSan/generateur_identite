@@ -1,0 +1,91 @@
+﻿
+CREATE DATABASE IF NOT EXISTS IENAC18_identite;
+
+USE IENAC18_identite;
+
+CREATE TABLE IF NOT EXISTS Utilisateur
+(
+idUtilisateur INT NOT NULL AUTO_INCREMENT,
+privilege INT,
+login VARCHAR(60),
+mdp VARCHAR(60),
+PRIMARY KEY(idUtilisateur)
+) ENGINE=INNODB CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS Banque
+(
+idBanque INT NOT NULL AUTO_INCREMENT,
+refBanque VARCHAR(60),
+PRIMARY KEY(idBanque)
+) ENGINE=INNODB CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS Nom
+(
+idNom INT NOT NULL AUTO_INCREMENT,
+nom VARCHAR(60),
+PRIMARY KEY(idNom)
+) ENGINE=INNODB CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS Prenom
+(
+idPrenom INT NOT NULL AUTO_INCREMENT,
+prenom VARCHAR(60),
+genre VARCHAR(60),
+PRIMARY KEY(idPrenom)
+) ENGINE=INNODB CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS Residence
+(
+idResidence INT NOT NULL AUTO_INCREMENT,
+numero INT,
+nom_voie VARCHAR(60),
+code_post INT,
+nom_commune VARCHAR(60),
+code_insee VARCHAR(60),
+PRIMARY KEY(idResidence )
+) ENGINE=INNODB CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS Liste_fiche 
+(
+idListe INT NOT NULL AUTO_INCREMENT,
+descriptif VARCHAR(60),
+dim INT,
+idUtilisateur INT,
+PRIMARY KEY(idliste),
+FOREIGN KEY (idUtilisateur) REFERENCES Utilisateur (idUtilisateur) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=INNODB CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS Individu
+(
+idIndividu INT NOT NULL AUTO_INCREMENT,
+idNom INT,
+idPrenom INT,
+date_naissance DATE,
+ville_naissance VARCHAR(90),
+idResidence INT,
+numero_insee VARCHAR(90),
+mrz VARCHAR(150),
+numTel VARCHAR(90),
+num_carte_banc VARCHAR(16),
+email VARCHAR(90),
+iban VARCHAR(90),
+genre VARCHAR(5),
+photo VARCHAR(1000), 
+idBanque  INT,
+idListe INT,
+PRIMARY KEY(idIndividu),
+FOREIGN KEY (idListe) REFERENCES Liste_fiche (idListe) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idNom) REFERENCES Nom(idNom) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idPrenom) REFERENCES Prenom(idPrenom) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idResidence) REFERENCES Residence(idResidence) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (idBanque) REFERENCES Banque(idBanque) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=INNODB CHARSET=utf8;
+
+
+INSERT INTO Utilisateur(login, mdp, privilege) VALUE ("admin","admin","0");
+INSERT INTO Utilisateur(login, mdp, privilege) VALUE ("NonConnecter","admin","2");
+INSERT INTO Utilisateur(login, mdp, privilege) VALUE ("utilisateur","enac","1");
+

@@ -17,8 +17,9 @@
         <ol>
             {% for ligne in data %}
             <div class="parent">
-                <p>Descriptif : {{ligne.descriptif}}</p>
+                <p>Liste {{ligne.idListe}} </p>
                 <div class="enfant">
+                    Descriptif : {{ligne.descriptif}}<br/>
                     Nom du créateur : {{ligne.login}}<br/>
                     Nombre d'identité du jeu : {{ligne.dim}}
                     <form method="post" action="{{ url_for('download_liste') }}">

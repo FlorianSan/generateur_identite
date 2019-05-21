@@ -109,9 +109,12 @@ div.enfant
 div.parent:hover .enfant{
 	display:block;
     border: 1px solid;
-
+    text-decoration : none;
 }
 
+div.parent:hover .parent{
+text-decoration : underline;
+}
 
 /********************************************************************************
  footer                                                                

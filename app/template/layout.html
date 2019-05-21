@@ -52,9 +52,7 @@
 
     {% block header %}{% endblock %}
 
-    {% if session.logged_in %}
-    <p>Vous êtes connecté {{session.login}}</p>
-    {% endif %}
+
 
     {% if info %}
         <div class="info">{{ info }}</div>

@@ -93,7 +93,8 @@ def create_identite(numprenommax,numnommax,numresidencemax,numbanqmax, dataform)
     if 'idcard'in dataform:
         mrz = str(TD1CodeGenerator("ID", "FRA", str(randint(1, 1000000)), date_naissance.replace("/","")[2:], str.upper(genre)[0],
                                    str(date.today() + timedelta(days=5475)).replace("-", "")[2:],
-                                   "FRA", '123' ,prenom[:29], "99999999R")).replace('\n', "") #nom[:4]
+                                   "FRA", nom[:4] , prenom[:29], "99999999R")).replace('\n', "")
+
     else:
         mrz = None
 

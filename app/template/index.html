@@ -12,6 +12,9 @@
 {% endblock %}
 
 {% block content %}
+    {% if session.logged_in %}
+    <p>Vous êtes connecté en tant que {{session.login}}</p>
+    {% endif %}
 
         <section>
             <p>Cette application web a pour vocation de créer des fichiers d'identitées fictives qui vous permettrons par exemple d'essayer vos futurs projets dans des conditions réelles</p>

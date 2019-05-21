@@ -34,7 +34,7 @@
                     {% else %}
                         {% if session.id == ligne.idUtilisateur %}
                             <form method="post" action="{{ url_for('delete_liste') }}">
-                                 <button class="button" type="submit" name="btn_submit" value={{ligne.idListe}}>Supprimer</button>
+                                 <button class="button2" type="submit" name="btn_submit" value={{ligne.idListe}}>Supprimer</button>
                             </form>
                         {% endif %}
                     {% endif %}

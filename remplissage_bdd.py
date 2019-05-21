@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 import os
-from math import ceil
+import re
 
 NOM = os.path.abspath("fichier_bdd/noms.txt")
 PRENOM = os.path.abspath("fichier_bdd/prenoms.txt")
@@ -42,7 +42,8 @@ def add_nom():
         l=[]
         for ligne in fichier:
             data = (ligne.split()[0],)
-            l.append(data)
+            if re.match("^[a-z]+$", data[0], flags=re.IGNORECASE):
+                l.append(data)
         cursor.executemany(sql, l[:80000])
         cursor.executemany(sql, l[80000:160000])
         cursor.executemany(sql, l[160000:])
@@ -66,7 +67,8 @@ def add_prenom():
             data = ligne.replace('\x00','').replace('\n','').split("\t")
             if len(data) == 4 :
                 d = (data[0],data[1])
-                l.append(d)
+                if re.match("^[a-z]+$", d[0], flags=re.IGNORECASE):
+                    l.append(d)
         cursor.executemany(sql, l)
         cnx.commit()
         fichier.close()

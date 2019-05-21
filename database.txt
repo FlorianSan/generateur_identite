@@ -87,5 +87,6 @@ FOREIGN KEY (idBanque) REFERENCES Banque(idBanque) ON DELETE CASCADE ON UPDATE C
 
 INSERT INTO Utilisateur(login, mdp, privilege) VALUE ("admin","admin","0");
 INSERT INTO Utilisateur(login, mdp, privilege) VALUE ("NonConnecter","admin","2");
-INSERT INTO Utilisateur(login, mdp, privilege) VALUE ("utilisateur","enac","1");
+INSERT INTO Utilisateur(login, mdp, privilege) VALUE ("utilisateur1","enac","1");
+INSERT INTO Utilisateur(login, mdp, privilege) VALUE ("utilisateur2","avion","1");
 

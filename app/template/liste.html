@@ -1,13 +1,13 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-    ID Creator Liste
+    ID Creator Listes
 {% endblock %}
 
 
 {% block header %}
     <header id="top2">
-        <h1>Liste</h1>
+        <h1>Listes</h1>
     </header>
 {% endblock %}
 
@@ -17,7 +17,7 @@
         <ol>
             {% for ligne in data %}
             <div class="parent">
-                <p>Liste {{ligne.idListe}} </p>
+                <p>Listes {{ligne.idListe}} </p>
                 <div class="enfant">
                     Descriptif : {{ligne.descriptif}}<br/>
                     Nom du créateur : {{ligne.login}}<br/>

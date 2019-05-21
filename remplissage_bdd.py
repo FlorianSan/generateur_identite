@@ -126,8 +126,30 @@ def add_residence():
         close_bd(cursor, cnx)
     return msg
 
+def add_liste_base():
+    msg = "Import de la liste de base"
+    try:
+        cnx = connexion()
+        cursor = cnx.cursor()
+        sql = "INSERT INTO Liste_fiche(descriptif, dim, idUtilisateur) VALUE ('Liste de base','3','1');"
+        cursor.execute(sql)
+        sql = "INSERT INTO Individu(idNom, idPrenom, date_naissance, ville_naissance, idResidence, numero_insee, mrz, numTel, num_carte_banc, email, iban, genre, idBanque, idListe) VALUE ('38745','10413','1986-06-25','Balma','85726','18606310445837','IDFRA487609<<<099999999R<<<<<<8606257M3405178FRA<<<<<<<<<<<1CAZU<<WILEY<<<<<<<<<<<<<<<<<<<','0674923591','5165346126100580', 'wiley.cazuc@gmail.com', 'FR2149860706508890690185170','m', '581', '1');"
+        cursor.execute(sql)
+        sql = "INSERT INTO Individu(idNom, idPrenom, date_naissance, ville_naissance, idResidence, numero_insee, mrz, numTel, num_carte_banc, email, iban, genre, idBanque, idListe) VALUE ('73295','9053','2019-04-15','Millau','83628','119041214572982','IDFRA339691<<<999999999R<<<<<<1904150M3405178FRA<<<<<<<<<<<7DUPL<<SHAI<<<<<<<<<<<<<<<<<<<<','0689896003','5251014090258290','shai.duplay@gmail.com','FR9086187679502274130821456','m', '599', '1');"
+        cursor.execute(sql)
+        sql = "INSERT INTO Individu(idNom, idPrenom, date_naissance, ville_naissance, idResidence, numero_insee, mrz, numTel, num_carte_banc, email, iban, genre, idBanque, idListe) VALUE ('75890', '2225', '1977-03-25', 'Bérat', '41615', '17703310654193', 'IDFRA215345<<<099999999R<<<<<<7703252M3405178FRA<<<<<<<<<<<5ENG<<DARNELL<<<<<<<<<<<<<<<<<<','0641145407','5576934464708660', 'wiley.cazuc@gmail.com','FR0418902570981964603690392','m', '57', '1');"
+        cursor.execute(sql)
+        cnx.commit()
+
+    except mysql.connector.Error as err:
+        msg = "Failed add_in_table : {}".format(err)
+    finally:
+        close_bd(cursor, cnx)
+    return msg
+
 if __name__ == '__main__':
     print(add_prenom())
     print(add_nom())
     print(add_banque())
     print(add_residence())
+    print(add_liste_base())

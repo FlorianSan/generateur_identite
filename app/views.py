@@ -77,7 +77,7 @@ def cv1():
    return render_template('cv1.html')
 @app.route('/cv2')
 def cv2():
-   return render_template('cv12html')
+   return render_template('cv2.html')
 @app.route('/cv3')
 def cv3():
    return render_template('cv3.html')

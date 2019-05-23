@@ -34,6 +34,7 @@ def create_identites(dataform):
     else:
         separateur = str(dataform["separateur"])
         with open(FICHIER_TEXTE, "w") as fichier:
+            fichier.write("Nom" + separateur + "Prenom" + separateur + "Date_naissance" + separateur + "Ville de naissance" + separateur + "Numero" + separateur + "Rue" + separateur + "Code Postal" + separateur + "Ville" + separateur + "Numero de sécurité sociale" + separateur + "MRZ" + separateur + "Numero de portable" + separateur + "Numero de carte bancaire" + separateur + "Email" + separateur + "Iban" + separateur + "genre" + "\n")
             for i in range(nombre):
                 info = create_identite(numprenommax, numnommax, numresidencemax, numbanqmax, dataform)[1]
                 print(info)
@@ -183,6 +184,8 @@ def preparation_download_liste(dataform):
     separateur = str(dataform["separateur"])
     liste = get_oneListe(idListe)
     with open(FICHIER_TEXTE, "w") as fichier:
+        fichier.write(
+            "Nom" + separateur + "Prenom" + separateur + "Date_naissance" + separateur + "Ville de naissance" + separateur + "Numero" + separateur + "Rue" + separateur + "Code Postal" + separateur + "Ville" + separateur + "Numero de sécurité sociale" + separateur + "MRZ" + separateur + "Numero de portable" + separateur + "Numero de carte bancaire" + separateur + "Email" + separateur + "Iban" + separateur + "genre" + "\n")
         for i in range(len(liste)):
             fichier.write( str(liste[i]["nom"]) + separateur + str(liste[i]["prenom"]) + separateur + str(liste[i]["date_naissance"]).replace("-","/") + separateur + str(liste[i]["ville_naissance"]) + separateur + str(liste[i]["numero"]) + separateur + str(liste[i]["nom_voie"]) + separateur + str(liste[i]["code_post"]) + separateur + str(liste[i]["nom_commune"]) + separateur + str(liste[i]["numero_insee"]) + separateur + str(liste[i]["mrz"]) + separateur + str(liste[i]["numTel"]) + separateur + str(liste[i]["num_carte_banc"]) + separateur + str(liste[i]["email"]) + separateur + str(liste[i]["iban"]) + separateur + str(liste[i]["genre"]) + "\n")
 

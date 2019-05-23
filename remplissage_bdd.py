@@ -107,7 +107,7 @@ def add_residence():
         cnx = connexion()
         cursor = cnx.cursor()
         sql = "INSERT INTO Residence (numero, nom_voie, code_post, nom_commune, code_insee) VALUES (%s, %s, %s, %s, %s);"
-        for num in range(50):
+        for num in [12,46,31]:
             fichier = open('fichier_bdd/BAN_licence_gratuite_repartage_'+str(num)+'.txt', "r", encoding='UTF_8')
             l=[]
             for ligne in fichier:

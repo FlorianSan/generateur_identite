@@ -8,15 +8,15 @@ from random import randint, randrange
 from mrz.generator.td1 import TD1CodeGenerator
 from datetime import date, timedelta
 from schwifty import IBAN
-
 from app.controllers.carte_identite import credit_card_number
 import time
 import os
 
 FICHIER_TEXTE = os.path.abspath("app/static/export.txt")
 pourcentage = 0
-###################################################################################################
 
+###################################################################################################
+#fonction appelé lors de la demande de creation sur la page creer.html
 
 def create_identites(dataform):
     global pourcentage
@@ -43,15 +43,17 @@ def create_identites(dataform):
     pourcentage = 0
     return type
 
+###################################################################################################
+#fonction qui met à jour la barre de progression
 
 def generate():
     global pourcentage
     yield "data:" + str(round(pourcentage)) + "\n\n"
 
+###################################################################################################
+#fonction qui génère aléatoirement l'identité d'une personne
 
 def create_identite(numprenommax,numnommax,numresidencemax,numbanqmax, dataform):
-
-
     idprenom = randint(1, numprenommax)
     idnom = randint(1, numnommax)
     idbanque = randint(1, numbanqmax)
@@ -128,7 +130,8 @@ def create_identite(numprenommax,numnommax,numresidencemax,numbanqmax, dataform)
     return (idnom, idprenom, date_naissance, ville_naissance[0], idresidence, numero_insee, mrz,  numTel, num_carte_banc, email, iban, genre, idbanque),(nom, prenom, date_naissance, ville_naissance[0], residence,  numero_insee, mrz,  numTel, num_carte_banc, email, iban, genre,)
 
 
-
+###################################################################################################
+#fonction qui vérifie les informations donnés dans la page connecter.html
 
 def verif_connect(dataform):
     login = dataform["login"]
@@ -144,10 +147,14 @@ def verif_connect(dataform):
         page_redirect = ["login", "auth_fail"]
     return page_redirect
 
-
+###################################################################################################
+#fonction supprime une liste de la base de donnée
 def remove_liste(dataform):
     idListe = dataform["btn_submit"]
     remove_oneListe(idListe)
+
+###################################################################################################
+#fonction qui renvoi les informations sur les individus en fonction des parametre passé dans selecteur.html
 
 def visu_liste(dataform):
     idListe = dataform["btn_visualiser"]
@@ -179,6 +186,9 @@ def visu_liste(dataform):
             del oneliste[i]["genre"]
     return oneliste
 
+###################################################################################################
+#fonction qui rempli le fichier d'export en vue de le téléchargement de ce dernier
+
 def preparation_download_liste(dataform):
     idListe = dataform["btn_download"]
     separateur = str(dataform["separateur"])
@@ -189,6 +199,8 @@ def preparation_download_liste(dataform):
         for i in range(len(liste)):
             fichier.write( str(liste[i]["nom"]) + separateur + str(liste[i]["prenom"]) + separateur + str(liste[i]["date_naissance"]).replace("-","/") + separateur + str(liste[i]["ville_naissance"]) + separateur + str(liste[i]["numero"]) + separateur + str(liste[i]["nom_voie"]) + separateur + str(liste[i]["code_post"]) + separateur + str(liste[i]["nom_commune"]) + separateur + str(liste[i]["numero_insee"]) + separateur + str(liste[i]["mrz"]) + separateur + str(liste[i]["numTel"]) + separateur + str(liste[i]["num_carte_banc"]) + separateur + str(liste[i]["email"]) + separateur + str(liste[i]["iban"]) + separateur + str(liste[i]["genre"]) + "\n")
 
+###################################################################################################
+#fonction qui crée une sequence de 3 chiffres aléatoire entre 001 et 999 pour générer le numéro d’ordre de la naissance dans le mois et la commune
 def n_len_rand(len_, floor=1):
     top = 10**len_
     if floor > top:

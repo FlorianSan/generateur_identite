@@ -15,9 +15,84 @@
 {% block content %}
     <section id="liste">
         <ol>
+            <p class="titre_liste">
+                {% if data[0].nom is defined %}
+                        Nom
+                 {% endif %}
+                {% if data[0].prenom is defined %}
+                        - Prenom
+                 {% endif %}
+                {% if data[0].date_naissance is defined %}
+                    - Date de naissance
+                 {% endif %}
+                {% if data[0].ville_naissance is defined %}
+                        - Ville de naissance
+                 {% endif %}
+                {% if data[0].numero is defined %}
+                        - Adresse
+                 {% endif %}
+                {% if data[0].numero_insee is defined %}
+                        - Numero de sécurité sociale
+                 {% endif %}
+                {% if data[0].mrz is defined %}
+                    - Carte d'identité
+                 {% endif %}
+                {% if data[0].numTel is defined %}
+                        - Numero de portable
+                 {% endif %}
+                 {% if data[0].email is defined %}
+                        - Email
+                 {% endif %}
+                {% if data[0].num_carte_banc is defined %}
+                        - Numero de carte bancaire
+                 {% endif %}
+                {% if data[0].iban is defined %}
+                         - Iban
+                 {% endif %}
+                {% if data[0].genre is defined %}
+                        - Genre
+                 {% endif %}
+                </p>
             {% for ligne in data %}
 
-                <p>{{ligne.nom}}  {{ligne.prenom}}  {{ligne.date_naissance}}  {{ligne.ville_naissance}} {{ligne.numero}} {{ligne.nom_voie}} {{ligne.code_post}} {{ligne.nom_commune}} {{ligne.numero_insee}} {{ligne.mrz}} {{ligne.numTel}} {{ligne.email}} {{ligne.num_carte_banc}} {{ligne.iban}} {{ligne.genre}}</p>
+                <p>
+                    {% if data[0].nom is defined %}
+                        {{ligne.nom}}
+                    {% endif %}
+                    {% if data[0].prenom is defined %}
+                        - {{ligne.prenom}}
+                    {% endif %}
+                    {% if data[0].date_naissance is defined %}
+                        - {{ligne.date_naissance}}
+                    {% endif %}
+                    {% if data[0].ville_naissance is defined %}
+                        - {{ligne.ville_naissance}}
+                    {% endif %}
+                    {% if data[0].numero is defined %}
+                        - {{ligne.numero}} {{ligne.nom_voie}} {{ligne.code_post}} {{ligne.nom_commune}}
+                    {% endif %}
+                    {% if data[0].numero_insee is defined %}
+                        - {{ligne.numero_insee}}
+                    {% endif %}
+                    {% if data[0].mrz is defined %}
+                        - {{ligne.mrz}}
+                    {% endif %}
+                    {% if data[0].numTel is defined %}
+                        - {{ligne.numTel}}
+                    {% endif %}
+                    {% if data[0].email is defined %}
+                        - {{ligne.email}}
+                    {% endif %}
+                    {% if data[0].num_carte_banc is defined %}
+                        -  {{ligne.num_carte_banc}}
+                    {% endif %}
+                    {% if data[0].iban is defined %}
+                        - {{ligne.iban}}
+                    {% endif %}
+                    {% if data[0].genre is defined %}
+                        - {{ligne.genre}}
+                    {% endif %}
+                </p>
 
 
             {% endfor %}

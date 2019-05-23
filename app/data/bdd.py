@@ -77,8 +77,7 @@ def authentification(login,mdp):
 
 
 ###################################################################################################
-# récupère toutes les liste
-
+# récupère toutes les listes
 
 def get_allListe():
     try:
@@ -93,7 +92,8 @@ def get_allListe():
         close_bd(cursor, cnx)
     return res
 
-
+###################################################################################################
+# récupère une liste
 def get_oneListe(idListe):
     try:
         cnx = connexion()
@@ -107,6 +107,8 @@ def get_oneListe(idListe):
         close_bd(cursor, cnx)
     return res
 
+###################################################################################################
+# supprime une liste en fonction de son indice, supprime par cascade les identites associées
 
 def remove_oneListe(idListe):
     try:
@@ -122,8 +124,7 @@ def remove_oneListe(idListe):
     return
 
 ###################################################################################################
-# recuperer la dimension  de tables de la bdd
-
+# recupère la dimension  de tables de la bdd
 
 def get_dim():
     try:
@@ -147,6 +148,9 @@ def get_dim():
     except mysql.connector.Error as err:
         close_bd(cursor, cnx)
         return "Failed get data : {}".format(err)
+
+###################################################################################################
+# recupère les informations relative à un individu
 
 def get_info(idprenom, idnom, idresidence, idbanq, idvillenaissance):
     try:
@@ -177,6 +181,9 @@ def get_info(idprenom, idnom, idresidence, idbanq, idvillenaissance):
         close_bd(cursor, cnx)
         return "Failed get data : {}".format(err)
 
+###################################################################################################
+# insère dans la base de donnée une nouvelle liste
+
 def insert_liste(description,nombre, idUtilisateur):
     try:
         cnx = connexion()
@@ -192,6 +199,9 @@ def insert_liste(description,nombre, idUtilisateur):
     finally:
         close_bd(cursor, cnx)
     return idliste
+
+###################################################################################################
+# insère dans la base de donnée une nouvelle identité
 
 def insert_identite(info):
     try:
